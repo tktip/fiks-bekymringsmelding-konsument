@@ -1,0 +1,30 @@
+# github.com/antonfisher/nested-logrus-formatter v1.3.0
+github.com/antonfisher/nested-logrus-formatter
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
+# github.com/freman/eventloghook v0.0.0-20191003051739-e4d803b6b48b
+github.com/freman/eventloghook
+# github.com/google/uuid v1.1.2
+github.com/google/uuid
+# github.com/kardianos/service v1.1.0
+github.com/kardianos/service
+# github.com/sirupsen/logrus v1.7.0
+github.com/sirupsen/logrus
+# github.com/streadway/amqp v1.0.0
+github.com/streadway/amqp
+# github.com/tktip/cfger v0.0.0-20201002114552-9be0c6d6b3ea
+github.com/tktip/cfger
+# github.com/tktip/maskinporten v0.0.0-20201001140743-6c5837ddca44
+github.com/tktip/maskinporten/pkg/maskinporten
+# github.com/tktip/pkcs7 v0.0.0-20201001142124-092879e6a797
+github.com/tktip/pkcs7
+# golang.org/x/sys v0.0.0-20191026070338-33540a1f6037
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+golang.org/x/sys/windows/registry
+golang.org/x/sys/windows/svc
+golang.org/x/sys/windows/svc/debug
+golang.org/x/sys/windows/svc/eventlog
+golang.org/x/sys/windows/svc/mgr
+# gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
+gopkg.in/yaml.v3

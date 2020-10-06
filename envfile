@@ -1,0 +1,14 @@
+# Which architecture to build - see $(ALL_ARCH) for options.
+ARCH ?= amd64
+
+# The binary to build (just the basename).
+BIN := fiks-bekymringsmelding-konsument
+
+# This repo's root import path (under GOPATH).
+PKG := github.com/tktip/fiks-bekymringsmelding-konsument
+
+# Where to push the docker image.
+REGISTRY ?= tipdocreg.trondheim.kommune.no
+
+# directories which hold app source (tests are run from these directories)
+SRC_DIRS := cmd pkg internal

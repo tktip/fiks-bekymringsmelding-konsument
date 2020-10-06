@@ -1,0 +1,38 @@
+logLevel: debug #f.eks. info, debug, warn, error
+disableHealth: true #ha et pong endepunkt på :8090/health
+
+decryptor:
+  privKeyPath: [ privatnøkkel-sti ]
+  pubKeyPath: [ publicnøkkel-sti ]
+
+rabbitmq:
+  host: io.fiks.test.ks.no
+  port: 5671
+  username: [ ditt_brukernavn ]
+  password: [ ditt_fiks_passord ]
+  queue: fiksio.konto.[fiks integrasjonsID]
+  consumer: [ fiks_io_konsumer-navn ]
+
+sender:
+  integrationId: [ fiks integrasjonsID ]
+  integrationPassword: [ ditt_fiks_passord ]
+  url: https://api.fiks.test.ks.no:443/fiks-io/api/v1/send
+
+fileHandler:
+  rootPath: /my/root/directory #her lages mapper for lagring av data
+  pdfFolder: pdf
+  pdfBackupFolder: .pdf
+  jsonFolder: .json
+
+maskinporten:
+  publicKey: [ privatnøkkel-sti ]
+  privateKey: [ publicnøkkel-sti ]
+  tokenEndpoint: https://oidc-ver2.difi.no/idporten-oidc-provider/token
+  scope: ks:fiks
+  aud: https://oidc-ver2.difi.no/idporten-oidc-provider
+  iss: [ din_issuer_verdi ]
+
+
+#WINDOWS SPECIFIC
+useEventLog: true
+logFile: Z:\fiks\log.log
