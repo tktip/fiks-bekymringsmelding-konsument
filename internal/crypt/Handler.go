@@ -15,11 +15,11 @@ import (
 
 // Handler - Provides methods for decryption and encryption
 type Handler struct {
-	JarLocation  string `yaml:"jarLocation"`
-	PrivCertPath string `yaml:"privCertPath"`
-	PubKeyPath   string `yaml:"pubKeyPath"`
-	cert         *x509.Certificate
-	privateKey   crypto.PrivateKey
+	JarLocation string `yaml:"jarLocation"`
+	PrivKeyPath string `yaml:"privKeyPath"`
+	PubKeyPath  string `yaml:"pubKeyPath"`
+	cert        *x509.Certificate
+	privateKey  crypto.PrivateKey
 }
 
 // Init - initialize decryptor, reading and parsing keys.
@@ -41,7 +41,7 @@ func (d *Handler) Init() error {
 	}
 
 	// Read the private pubKey
-	privKey, err := ioutil.ReadFile(d.PrivCertPath)
+	privKey, err := ioutil.ReadFile(d.PrivKeyPath)
 	if err != nil {
 		return err
 	}
