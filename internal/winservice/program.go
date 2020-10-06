@@ -69,14 +69,17 @@ func (p *program) addLogHooks() error {
 // Init - initialize the program and sub-structs.
 func (p *program) Init(configFile string) (err error) {
 
-	//read fiks config
-	_, err = cfger.ReadStructuredCfgRecursive("file::"+configFile, &p.fiksHandler)
+	//read windows specific log config
+	_, err = cfger.ReadStructuredCfgRecursive("file::"+configFile, &p)
 	if err != nil {
 		return err
 	}
 
-	//read windows specific log config
-	_, err = cfger.ReadStructuredCfgRecursive("file::"+configFile, &p)
+	// initialize file and event loggers
+	err = p.addLogHooks()
+
+	//read fiks config
+	_, err = cfger.ReadStructuredCfgRecursive("file::"+configFile, &p.fiksHandler)
 	if err != nil {
 		return err
 	}
@@ -85,9 +88,6 @@ func (p *program) Init(configFile string) (err error) {
 	if err != nil {
 		return err
 	}
-
-	// initialize file and event loggers
-	err = p.addLogHooks()
 
 	return err
 }
