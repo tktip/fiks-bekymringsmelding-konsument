@@ -36,6 +36,3 @@ When running the executable, a config file path is expected as an argument. E.g.
 - Fix makefile so it works properly with GOOS=windows.
 - Test Make on windows.
  
- 
- 
-#english Fiks Bekymringsmelding Konsument (English)
