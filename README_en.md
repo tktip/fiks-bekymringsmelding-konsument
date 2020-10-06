@@ -16,8 +16,8 @@ Makefile functions are not guaranteed to work on Windows.
  
 For questions, suggestions or other make an issue or contact TIP at postmottak.tip@trondheim.kommune.no
 
-#### Building and running the software:
-##### Linux:
+## Building and running the software:
+### Linux:
 Run `make build` in the root folder and run executable found in `./bin/amd64/fiks-bekymringsmelding-konsument`. 
 
 When running executable, remember to add environment variable `CONFIG`\*. 
@@ -26,11 +26,11 @@ Example run: `CONFIG=file::/my/config/file.yml ./bin/amd64/fiks-bekymringsmeldin
 
 \*The software uses [cfger](https://github.com/tktip/cfger), which tries to resolve variable value based on prefixes. `env::` reads from environment, `file::` reads from file system. Without a tag the immediate value is used.
 
-##### Windows
+### Windows
 From root, run `go build cmd/fiks-bekymringsmelding-konsument/main.go`. Afterwards, `main.exe` can be run from root. 
 When running the executable, a config file path is expected as an argument. E.g. `main.exe C:\config\cfg.yml`.
 
-#### Future improvements to consider:
+## Future improvements to consider:
 - Automatic reconnect on queue disconnect/connect timeout. As of now the software exits if unable to connect or if connection dies.
 - Download of documents: Currently reports are assumed to always be present inside AMQP messages, and external messages are not supported. Large messages must be downloaded from the FIKS document store, using an AMQP message header. Currently developing this feature is difficult since there is no way to upload large files using the report system.
 - Fix makefile so it works properly with GOOS=windows.
