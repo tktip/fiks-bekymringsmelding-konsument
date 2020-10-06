@@ -9,16 +9,17 @@ NB: I utgangspunktet utviklet for å kjøre Linux, men er også lagt funksjonali
 
 For spørsmål, forbedringsforslag e.l. lag issue eller kontakt postmottak.tip@trondheim.kommune.no
 
-####Bygging av programmet:
-#####For linux:
+## Bygging av programmet:
+
+### For Linux:
 Ved å kjøre `make build` fra rot lagres kjørbar fil i `./bin/amd64/fiks-bekymringsmelding-konsument`. 
 
 Denne kan så kjøres med følgende kommando: `CONFIG=file::/my/config/file.yml ./bin/amd64/fiks-bekymringsmelding-konsument`
 
-#####Windows
+### Windows
 Fra rot, kjør `go build cmd/fiks-bekymringsmelding-konsument/main.go`. Deretter kan `main.exe` kjøres. Ved kjøring av exe-fil forventes at config-filsti settes som argument. F.eks. `main.exe dev_cfg/cfg.yml`.
 
-#### Vurderte fremtidige forbedringer:
+## Vurderte fremtidige forbedringer:
 - Reconnect til FIKS-kø ved feil: Per dags dato avsluttes programmet om køoppkoblingen stanser.
 - Nedlasting av dokumenter: Per dags dato hentes meldinger kun fra AMQP-meldingen. Dette har vært vanskelig å få gjort tester på og er lagt på is. Meldinger hvis innhold lagres i dokumentlager lastes med andre ord ikke ned.
 - Få makefil til å kjøre ordentlig med GOOS=windows.
