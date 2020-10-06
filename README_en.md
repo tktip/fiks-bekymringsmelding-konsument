@@ -10,6 +10,8 @@ The service subscribes to an AMQP queue maintained by FIKS. FIKS adds messages t
 Encrypted zip files are decrypted by way of provided certificate data, and their contents are stored in specified folders (See dev_cfg/cfg.yml for configuration).
 JSON and PDF folders are stored in separate folders, and PDFs are also stored in a backup folder in case the original is deleted by accident or too early by case workers.
 
+After setup of environment at FIKS, test reports can be made using the FIKS [report site](https://bekymringsmelding.fiks.test.ks.no/en).
+
 Note: In general, the software is developed on and for Linux, but functionality has been added to run it as a service in Windows. 
 The software is not guaranteed to run as smoothly on Windows as on Linux.
 Makefile functions are not guaranteed to work on Windows. 
