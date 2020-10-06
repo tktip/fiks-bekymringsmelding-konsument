@@ -77,6 +77,9 @@ func (p *program) Init(configFile string) (err error) {
 
 	// initialize file and event loggers
 	err = p.addLogHooks()
+	if err != nil{
+		return err
+	}
 
 	//read fiks config
 	_, err = cfger.ReadStructuredCfgRecursive("file::"+configFile, &p.fiksHandler)
@@ -84,12 +87,7 @@ func (p *program) Init(configFile string) (err error) {
 		return err
 	}
 
-	err = p.fiksHandler.Init()
-	if err != nil {
-		return err
-	}
-
-	return err
+	return p.fiksHandler.Init()
 }
 
 func (p *program) run() {
