@@ -7,7 +7,7 @@ I korte trekk funker tjenesten slik:
 
 Tjenesten abonnerer på en AMQP-kø hos FIKS, og mottar meldinger med bekymringmelding-data. Innholdet i meldingene er krypterte zipfiler med JSON og PDF av bekymringsmelding. Zipfilene dekrypteres vha sertifikat, og innholdet lagres i spesifiserte mapper (se dev_cfg/cfg.yml for spesifikasjon). JSON og PDF lagres i egen mappe, og PDF lagres også i en spesifisert backupmappe i tilfelle den slettes før den burde bli slettet.
 
-Etter å ha opprettet integrasjon hos FIKS kan test-meldinger opprettes på FIKS sin [bekymringmelding-side](https://bekymringsmelding.fiks.test.ks.no/).
+Etter å ha opprettet integrasjon hos FIKS kan test-meldinger opprettes på FIKS sin [bekymringsmelding-side](https://bekymringsmelding.fiks.test.ks.no/).
 
 NB: I utgangspunktet utviklet for å kjøre Linux, men er også lagt funksjonalitet for å kjøre programmet som en tjeneste i Windows. Windows-tjenesten er ikke garantert å funke like bra som Linux-tjenesten. Make-funksjonalitet er ikke garantert å funke i Windows.
 
