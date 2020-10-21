@@ -1,7 +1,6 @@
 package maskinporten
 
 import (
-	"bytes"
 	"crypto/rsa"
 	"encoding/base64"
 	"encoding/json"
@@ -10,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -22,13 +22,14 @@ type Handler struct {
 	signKey   *rsa.PrivateKey
 	x5CHeader []string
 
-	Debug        bool                 `yaml:"Debug"`
 	PrivateKey    string `yaml:"privateKey"`
 	PublicKey     string `yaml:"publicKey"`
 	TokenEndpoint string `yaml:"tokenEndpoint"`
 	Scope         string `yaml:"scope"`
 	Audience      string `yaml:"aud"`
 	Issuer        string `yaml:"iss"`
+
+	client *http.Client
 }
 
 // TokenResponse is the form of the response when fetching an access token from ID-porten
@@ -71,7 +72,7 @@ func readCertFiles(privFile string, pubFile string) (
 		return
 	}
 
-	x5c, err = pToX5C([]string{}, pubBytes)
+	x5c, err = convertPublicKeyToX5CHeader([]string{}, pubBytes)
 	if err != nil {
 		err = fmt.Errorf("error parsing pubfile to x5c-header: %v", err)
 		return
@@ -79,7 +80,7 @@ func readCertFiles(privFile string, pubFile string) (
 	return
 }
 
-func pToX5C(soFar []string, bs []byte) ([]string, error) {
+func convertPublicKeyToX5CHeader(soFar []string, bs []byte) ([]string, error) {
 	block, rest := pem.Decode(bs)
 	if block == nil {
 		return nil, errors.New("invalid key: failed to parse header")
@@ -91,11 +92,10 @@ func pToX5C(soFar []string, bs []byte) ([]string, error) {
 		return soFar, nil
 	}
 
-	return pToX5C(soFar, rest)
+	return convertPublicKeyToX5CHeader(soFar, rest)
 }
 
 func (h *Handler) createToken() (string, error) {
-	// test := base64.StdEncoding.EncodeToString([]byte(h.PrivateKey))
 	claims := jwt.MapClaims{
 		"scope": h.Scope,
 		"aud":   h.Audience,
@@ -114,6 +114,15 @@ func (h *Handler) createToken() (string, error) {
 	return tokenString, nil
 }
 
+func (h *Handler) getClient() *http.Client {
+	if h.client == nil {
+		h.client = &http.Client{
+			Timeout: 30 * time.Second,
+		}
+	}
+	return h.client
+}
+
 //CreateAccessToken - creates an Maskinporten access token
 func (h *Handler) CreateAccessToken() (tokenRes TokenResponse, err error) {
 	tokenContent, err := h.createToken()
@@ -123,7 +132,11 @@ func (h *Handler) CreateAccessToken() (tokenRes TokenResponse, err error) {
 
 	body := "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=" + tokenContent
 
-	req, err := http.NewRequest(http.MethodPost, h.TokenEndpoint, bytes.NewReader([]byte(body)))
+	req, err := http.NewRequest(
+		http.MethodPost,
+		h.TokenEndpoint,
+		strings.NewReader(body),
+	)
 	if err != nil {
 		err = fmt.Errorf("error creating request: %v", err)
 		return
@@ -131,16 +144,13 @@ func (h *Handler) CreateAccessToken() (tokenRes TokenResponse, err error) {
 
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	httpClient := http.Client{
-		Timeout: time.Second * 30,
-	}
-	res, err := httpClient.Do(req)
+	res, err := h.getClient().Do(req)
 	if err != nil {
 		err = fmt.Errorf("error doing request: %v", err)
 		return
 	}
-
 	defer res.Body.Close()
+
 	resBod, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		err = fmt.Errorf("error reading response: %v", err)
@@ -149,7 +159,7 @@ func (h *Handler) CreateAccessToken() (tokenRes TokenResponse, err error) {
 
 	if res.StatusCode != http.StatusOK {
 		err = fmt.Errorf("expected response code 200, got %d. Response body was: %s",
-			res.StatusCode, string(resBod))
+			res.StatusCode, resBod)
 		return
 	}
 

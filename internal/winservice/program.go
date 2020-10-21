@@ -12,6 +12,7 @@ import (
 
 	"github.com/kardianos/service"
 	"github.com/tktip/fiks-bekymringsmelding-konsument/internal/log"
+	"github.com/tktip/windows/pkg/logrus/hooks"
 )
 
 type program struct {
@@ -44,7 +45,7 @@ func (p *program) Start(service service.Service) error {
 func (p *program) addLogHooks() error {
 
 	if p.LogFile != "" {
-		err := log.AddFileHook(p.LogFile)
+		err := hooks.AddFileHook(log.Logger, p.LogFile)
 		if err != nil {
 			return err
 		}
@@ -54,7 +55,7 @@ func (p *program) addLogHooks() error {
 	}
 
 	if p.UseEventLog {
-		err := log.AddEventLogHook(p.service)
+		err := hooks.AddEventLogHook(log.Logger, p.service)
 		if err != nil {
 			return err
 		}
@@ -77,7 +78,7 @@ func (p *program) Init(configFile string) (err error) {
 
 	// initialize file and event loggers
 	err = p.addLogHooks()
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
