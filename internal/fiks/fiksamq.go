@@ -54,23 +54,23 @@ func (h *Handler) Init() (err error) {
 
 	err = h.Crypto.Init()
 	if err != nil {
-		return err
+		return fmt.Errorf("Error during crypto init: %w", err)
 	}
 
 	err = h.FileHandler.Init()
 	if err != nil {
-		return err
+		return fmt.Errorf("Error during file handler init: %w", err)
 	}
 
 	err = h.Maskinporten.Init()
 	if err != nil {
-		return err
+		return fmt.Errorf("Error during maskinporten init: %w", err)
 	}
 
 	if h.LogLevel != "" {
 		lvl, err := logrus.ParseLevel(h.LogLevel)
 		if err != nil {
-			return err
+			return fmt.Errorf("Failed to parse log level: %w", err)
 		}
 
 		log.Logger.SetLevel(lvl)
